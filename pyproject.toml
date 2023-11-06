@@ -1,0 +1,18 @@
+[project]
+name = "fcrud"
+version = "0.1.0"
+description = "fastapi-crudrouter + FastApi"
+authors = [
+    {name = "pysatellite", email = "pysatellite@gmail.com"},
+]
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0.post1",
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
