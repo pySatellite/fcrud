@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:c4cf8903647fdb0dc93bb92f60e0ca91d08045badfd71a476a3879bee798339e"
+content_hash = "sha256:9e74e03eb207e0af61867d7184f98158ecc24ccf811551fb597f5732e051828f"
 
 [[package]]
 name = "annotated-types"
@@ -68,6 +68,19 @@ dependencies = [
 files = [
     {file = "fastapi-0.104.1-py3-none-any.whl", hash = "sha256:752dc31160cdbd0436bb93bad51560b57e525cbb1d4bbf6f4904ceee75548241"},
     {file = "fastapi-0.104.1.tar.gz", hash = "sha256:e5e4540a7c5e1dcfbbcf5b903c234feddcdcd881f191977a1c5dfd917487e7ae"},
+]
+
+[[package]]
+name = "fastapi-crudrouter"
+version = "0.8.6"
+requires_python = ">=3.7"
+summary = "A dynamic FastAPI router that automatically creates CRUD routes for your models"
+dependencies = [
+    "fastapi",
+]
+files = [
+    {file = "fastapi-crudrouter-0.8.6.tar.gz", hash = "sha256:32704a7aa1d0b23bb6437f717599e9c4c01d8e5a91370a0359837a899a809ceb"},
+    {file = "fastapi_crudrouter-0.8.6-py3-none-any.whl", hash = "sha256:4ceb0289cd7b7c687f88581838c032cdb21f24d36971e54b0e594ddcfaf9634e"},
 ]
 
 [[package]]

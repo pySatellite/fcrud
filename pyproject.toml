@@ -3,7 +3,12 @@ name = "fcrud"
 version = "0.2.0"
 description = "fastapi-crudrouter + FastApi"
 authors = [{ name = "pysatellite", email = "pysatellite@gmail.com" }]
-dependencies = ["fastapi>=0.104.1", "uvicorn[standard]>=0.24.0.post1"]
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0.post1",
+    "fastapi-crudrouter>=0.8.6",
+    "pydantic>=2.4.2",
+]
 requires-python = ">=3.11"
 readme = "README.md"
 license = { text = "MIT" }
