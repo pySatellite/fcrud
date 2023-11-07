@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi_crudrouter import MemoryCRUDRouter as CRUDRouter
 from fcrud.echo.ping import ping
+from fcrud.model.alarm import Alarm
 
 
 class Potato(BaseModel):
@@ -14,6 +15,7 @@ class Potato(BaseModel):
 
 app = FastAPI()
 app.include_router(CRUDRouter(schema=Potato))
+app.include_router(CRUDRouter(schema=Alarm))
 
 
 @app.get("/")
