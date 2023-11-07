@@ -1,9 +1,9 @@
 from typing import Union
-
 from fastapi import FastAPI
-
 from pydantic import BaseModel
 from fastapi_crudrouter import MemoryCRUDRouter as CRUDRouter
+from fcrud.echo.ping import ping
+
 
 class Potato(BaseModel):
     id: int
@@ -11,13 +11,19 @@ class Potato(BaseModel):
     color: str
     mass: float
 
+
 app = FastAPI()
 app.include_router(CRUDRouter(schema=Potato))
 
 
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "World"}
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+
+@app.get("/ping")
+def call_ping():
+    return {"ping": ping()}
 
 
 # @app.get("/items/{item_id}")
