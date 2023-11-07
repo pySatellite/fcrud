@@ -12,10 +12,10 @@ from fastapi_crudrouter import DatabasesCRUDRouter
 from contextlib import asynccontextmanager
 
 
-DATABASE_URL = "sqlite:///./test.db"
+DATABASE_URL = "postgresql://brown:brown@nrt.fcrud-db.internal:5432/brown"
+
 database = databases.Database(DATABASE_URL)
-engine = sqlalchemy.create_engine(DATABASE_URL, connect_args={
-                                  "check_same_thread": False})
+engine = sqlalchemy.create_engine(DATABASE_URL)
 metadata = sqlalchemy.MetaData()
 potatoes = sqlalchemy.Table(
     "potatoes",
