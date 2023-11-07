@@ -9,6 +9,9 @@ import databases
 import sqlalchemy
 from fastapi_crudrouter import DatabasesCRUDRouter
 
+from contextlib import asynccontextmanager
+
+
 DATABASE_URL = "sqlite:///./test.db"
 database = databases.Database(DATABASE_URL)
 engine = sqlalchemy.create_engine(DATABASE_URL, connect_args={
@@ -37,17 +40,17 @@ class Potato(PotatoCreate):
     id: int
 
 
-app = FastAPI()
-
-
-@app.on_event("startup")
-async def startup():
+@asynccontextmanager
+async def life(app: FastAPI):
+    # startup
     await database.connect()
-
-
-@app.on_event("shutdown")
-async def shutdown():
+    yield
+    # shutdown
     await database.disconnect()
+
+
+app = FastAPI(lifespan=life)
+
 
 router = DatabasesCRUDRouter(
     schema=Potato,

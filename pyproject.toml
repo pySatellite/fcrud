@@ -20,9 +20,7 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pdm.scripts]
-start = "uvicorn src.fcrud.main:app --reload --port 8000"
+devrun = "uvicorn src.fcrud.main:app --reload --port 8000"
 
 [tool.pdm.dev-dependencies]
-test = [
-    "pytest>=7.4.3",
-]
+test = ["pytest>=7.4.3"]
