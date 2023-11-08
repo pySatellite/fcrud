@@ -22,7 +22,8 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pdm.scripts]
-devrun = "uvicorn src.fcrud.main:app --reload --port 8000"
+rundev = "uvicorn src.fcrud.main:app --reload --port 8000"
+proxydb = "fly proxy 5432 -a fcrud-db"
 
 [tool.pdm.dev-dependencies]
 test = ["pytest>=7.4.3"]

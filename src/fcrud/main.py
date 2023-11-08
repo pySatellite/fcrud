@@ -11,6 +11,8 @@ from fastapi_crudrouter import DatabasesCRUDRouter
 
 from contextlib import asynccontextmanager
 
+from fastapi.middleware.cors import CORSMiddleware
+
 
 DATABASE_URL = "postgresql://brown:brown@nrt.fcrud-db.internal:5432/brown"
 
@@ -50,6 +52,18 @@ async def life(app: FastAPI):
 
 
 app = FastAPI(lifespan=life)
+
+origins = [
+    "http://localhost:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 router = DatabasesCRUDRouter(
