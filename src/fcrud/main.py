@@ -12,6 +12,7 @@ from fastapi_crudrouter import DatabasesCRUDRouter
 from contextlib import asynccontextmanager
 
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 
 DATABASE_URL = "postgresql://brown:brown@nrt.fcrud-db.internal:5432/brown"
@@ -54,7 +55,14 @@ async def life(app: FastAPI):
 app = FastAPI(lifespan=life)
 
 origins = [
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:8000",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+    "http://127.0.0.1:8000",
+    "http://localhost",
+    "http://127.0.0.1"
 ]
 
 app.add_middleware(
@@ -85,6 +93,30 @@ def read_root():
 @app.get("/ping")
 def call_ping():
     return {"ping": ping()}
+
+
+@app.get("/dummy")
+def potatoes(_end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+
+    content = [
+        {
+            "thickness": 0,
+            "mass": 0,
+            "color": "string",
+            "type": "string",
+            "id": 1
+        },
+        {
+            "thickness": 0,
+            "mass": 0,
+            "color": "string",
+            "type": "string",
+            "id": 2
+        }
+    ]
+    # return content
+    headers = {'Access-Control-Expose-Headers', 'X-Total-Count'}
+    return JSONResponse(content=content, headers=headers)
 
 
 # @app.get("/items/{item_id}")
