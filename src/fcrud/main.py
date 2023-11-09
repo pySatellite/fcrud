@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from pydantic import BaseModel
 from fastapi_crudrouter import MemoryCRUDRouter as CRUDRouter
 from fcrud.echo.ping import ping
@@ -96,7 +96,7 @@ def call_ping():
 
 
 @app.get("/dummy")
-def potatoes(_end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+def potatoes(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
 
     content = [
         {
@@ -114,9 +114,11 @@ def potatoes(_end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int
             "id": 2
         }
     ]
-    # return content
-    headers = {'Access-Control-Expose-Headers', 'X-Total-Count'}
-    return JSONResponse(content=content, headers=headers)
+    response.headers.update({
+        "Access-Control-Expose-Headers": "X-Total-Count",
+        "X-Total-Count": str(1)
+    })
+    return content
 
 
 # @app.get("/items/{item_id}")
