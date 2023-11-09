@@ -66,7 +66,9 @@ origins = [
     "http://127.0.0.1:5174",
     "http://127.0.0.1:8000",
     "http://localhost",
-    "http://127.0.0.1"
+    "http://127.0.0.1",
+    "https://satellite-info.web.app",
+    "https://satellite-info.firebaseapp.com"
 ]
 
 app.add_middleware(
