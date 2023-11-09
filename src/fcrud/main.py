@@ -14,7 +14,7 @@ import sqlalchemy
 import requests
 
 from fcrud.echo.ping import ping
-from fcrud.model.alarm import Alarm
+from fcrud.model.alarm import Alarm, AlarmCreate
 from fcrud.utils.macgyver_knife import sort_and_extract
 
 
@@ -25,26 +25,13 @@ database = databases.Database(DATABASE_URL)
 engine = sqlalchemy.create_engine(DATABASE_URL)
 metadata = sqlalchemy.MetaData()
 potatoes = sqlalchemy.Table(
-    "potatoes",
+    "alarms",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("thickness", sqlalchemy.Float),
-    sqlalchemy.Column("mass", sqlalchemy.Float),
-    sqlalchemy.Column("color", sqlalchemy.String),
-    sqlalchemy.Column("type", sqlalchemy.String),
+    sqlalchemy.Column("dag", sqlalchemy.String),
+    sqlalchemy.Column("email", sqlalchemy.String),
 )
 metadata.create_all(bind=engine)
-
-
-class PotatoCreate(BaseModel):
-    thickness: float
-    mass: float
-    color: str
-    type: str
-
-
-class Potato(PotatoCreate):
-    id: int
 
 
 @asynccontextmanager
@@ -81,14 +68,19 @@ app.add_middleware(
 
 
 router = DatabasesCRUDRouter(
-    schema=Potato,
-    create_schema=PotatoCreate,
+    schema=Alarm,
+    create_schema=AlarmCreate,
     table=potatoes,
     database=database
 )
-app.include_router(router)
 
-app.include_router(CRUDRouter(schema=Alarm))
+
+# @router.get('')
+# def overloaded_get_all():
+#     return 'My overloaded route that returns all the items'
+
+
+app.include_router(router)
 
 
 @app.get("/")
@@ -101,12 +93,12 @@ def call_ping():
     return {"ping": ping()}
 
 
-@app.get("/orions")
-def potatoes(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
-    """http://localhost:8000/orions?_end=10&_order=ASC&_sort=id&_start=0
+@app.get("/checklist")
+def checklists(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+    """http://localhost:8000/alarms?_end=10&_order=ASC&_sort=id&_start=0
     """
 
-    target_url = f'{BASEURL}/potatoes'
+    target_url = f'{BASEURL}/alarms'
     total = requests.get(target_url).json()
     total_count = len(total)
 
@@ -118,3 +110,10 @@ def potatoes(response: Response, _end: int = 10, _order: str = "ASC", _sort: str
         "X-Total-Count": str(total_count)
     })
     return content
+
+
+@app.get("/checklist/{item_id}")
+def read_checklist(item_id: int):
+    target_url = f'{BASEURL}/alarms/{item_id}'
+    get_one = requests.get(target_url).json()
+    return get_one

@@ -1,7 +1,10 @@
 from pydantic import BaseModel
 
 
-class Alarm(BaseModel):
-    id: int
+class AlarmCreate(BaseModel):
     dag: str
     email: str
+
+
+class Alarm(AlarmCreate):
+    id: int
