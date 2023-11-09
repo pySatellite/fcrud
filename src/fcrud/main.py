@@ -99,7 +99,13 @@ def call_ping():
 
 @app.get("/orions")
 def potatoes(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
-    r = requests.get("http://localhost:8000/potatoes")
+    """http://localhost:8000/orions?_end=10&_order=ASC&_sort=id&_start=0
+    """
+    r = requests.get("http://localhost:8000/potatoes",
+                     params={
+                         'skip': _start,
+                         'limit': _end - _start
+                     })
 
     content = r.json()
 
