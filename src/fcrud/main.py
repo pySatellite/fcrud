@@ -14,6 +14,8 @@ from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+import requests
+
 
 DATABASE_URL = "postgresql://brown:brown@nrt.fcrud-db.internal:5432/brown"
 
@@ -97,30 +99,12 @@ def call_ping():
 
 @app.get("/dummy")
 def potatoes(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+    r = requests.get("http://localhost:8000/potatoes")
 
-    content = [
-        {
-            "thickness": 0,
-            "mass": 0,
-            "color": "string",
-            "type": "string",
-            "id": 1
-        },
-        {
-            "thickness": 0,
-            "mass": 0,
-            "color": "string",
-            "type": "string",
-            "id": 2
-        }
-    ]
+    content = r.json()
+
     response.headers.update({
         "Access-Control-Expose-Headers": "X-Total-Count",
         "X-Total-Count": str(1)
     })
     return content
-
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: Union[str, None] = None):
-#     return {"item_id": item_id, "q": q}
