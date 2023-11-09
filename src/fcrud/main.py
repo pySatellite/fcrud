@@ -97,7 +97,7 @@ def call_ping():
     return {"ping": ping()}
 
 
-@app.get("/dummy")
+@app.get("/orions")
 def potatoes(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
     r = requests.get("http://localhost:8000/potatoes")
 
