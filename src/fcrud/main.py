@@ -2,8 +2,7 @@ from typing import Union
 from fastapi import FastAPI, Response
 from pydantic import BaseModel
 from fastapi_crudrouter import MemoryCRUDRouter as CRUDRouter
-from fcrud.echo.ping import ping
-from fcrud.model.alarm import Alarm
+
 
 import databases
 import sqlalchemy
@@ -15,6 +14,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 import requests
+
+from fcrud.echo.ping import ping
+from fcrud.model.alarm import Alarm
+from fcrud.utils.macgyver_knife import sort_and_extract
 
 
 DATABASE_URL = "postgresql://brown:brown@nrt.fcrud-db.internal:5432/brown"
@@ -101,16 +104,22 @@ def call_ping():
 def potatoes(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
     """http://localhost:8000/orions?_end=10&_order=ASC&_sort=id&_start=0
     """
-    r = requests.get("http://localhost:8000/potatoes",
+    BASEURL = "http://localhost:8000"
+    target_url = f'{BASEURL}/potatoes'
+    total = requests.get(target_url).json()
+    total_count = len(total)
+
+    r = requests.get(target_url,
                      params={
                          'skip': _start,
                          'limit': _end - _start
                      })
 
-    content = r.json()
+    content = sort_and_extract(
+        total, order=_order, sort=_sort, start=_start, end=_end)
 
     response.headers.update({
         "Access-Control-Expose-Headers": "X-Total-Count",
-        "X-Total-Count": str(1)
+        "X-Total-Count": str(total_count)
     })
     return content
