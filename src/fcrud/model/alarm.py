@@ -6,6 +6,7 @@ from fastapi_crudrouter import DatabasesCRUDRouter
 class AlarmCreate(BaseModel):
     dag: str
     email: str
+    airflow_id: int
 
 
 class Alarm(AlarmCreate):
@@ -19,6 +20,7 @@ def get_alarm_table(metadata):
         sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
         sqlalchemy.Column("dag", sqlalchemy.String),
         sqlalchemy.Column("email", sqlalchemy.String),
+        sqlalchemy.Column("airflow_id", sqlalchemy.Integer),
     )
     return alarms_table
 

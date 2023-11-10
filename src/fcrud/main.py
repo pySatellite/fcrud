@@ -26,15 +26,10 @@ app = FastAPI(lifespan=life)
 
 origins = [
     "http://localhost:5173",
-    "http://localhost:5174",
-    "http://localhost:8000",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:5174",
-    "http://127.0.0.1:8000",
-    "http://localhost",
-    "http://127.0.0.1",
     "https://satellite-info.web.app",
-    "https://satellite-info.firebaseapp.com"
+    "https://satellite-info.firebaseapp.com",
+    "https://satellite.diginori.com/",
+    "https://sli.diginori.com/",
 ]
 
 app.add_middleware(
@@ -68,14 +63,10 @@ def call_ping():
     return {"ping": ping()}
 
 
-@app.get("/alarms_ra")
-def alarms_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
-    """http://localhost:8000/alarms?_end=10&_order=ASC&_sort=id&_start=0
-    """
-    target_url = f'{LOCAL_API_BASE_URL}/alarms'
+def read_json_server_provider(resource: str, _end: int, _order: str, _sort: str, _start: int, response: Response):
+    target_url = f'{LOCAL_API_BASE_URL}/{resource}'
     total = requests.get(target_url).json()
     total_count = len(total)
-
     content = sort_and_extract(
         total, order=_order, sort=_sort, start=_start, end=_end)
 
@@ -84,22 +75,13 @@ def alarms_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: st
         "X-Total-Count": str(total_count)
     })
     return content
+
+
+@app.get("/alarms_ra")
+def alarms_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+    return read_json_server_provider("alarms", _end, _order, _sort, _start, response)
+
 
 @app.get("/airflows_ra")
 def airflows_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
-    """http://localhost:8000/alarms?_end=10&_order=ASC&_sort=id&_start=0
-    """
-
-    target_url = f'{LOCAL_API_BASE_URL}/airflows'
-    total = requests.get(target_url).json()
-    total_count = len(total)
-
-    content = sort_and_extract(
-        total, order=_order, sort=_sort, start=_start, end=_end)
-
-    response.headers.update({
-        "Access-Control-Expose-Headers": "X-Total-Count",
-        "X-Total-Count": str(total_count)
-    })
-    return content
-
+    return read_json_server_provider("airflows", _end, _order, _sort, _start, response)
