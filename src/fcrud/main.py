@@ -2,15 +2,15 @@ from typing import Union
 
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from contextlib import asynccontextmanager
 
 import databases
 import sqlalchemy
 import requests
 
-from fcrud.echo.ping import ping
-from fcrud.model.alarm import get_alarm_router
-from fcrud.model.airflow import get_airflow_router
+from fcrud.model.rocket import get_rocket_router
+from fcrud.model.satellite import get_satellite_router
 from fcrud.utils.macgyver_knife import sort_and_extract
 
 
@@ -25,7 +25,7 @@ async def life(app: FastAPI):
 app = FastAPI(lifespan=life)
 
 origins = [
-    "http://localhost:5173",
+    "http://localhost:5174",
     "https://satellite-info.web.app",
     "https://satellite-info.firebaseapp.com",
     "https://satellite.diginori.com/",
@@ -47,20 +47,15 @@ database = databases.Database(DATABASE_URL)
 engine = sqlalchemy.create_engine(DATABASE_URL)
 metadata = sqlalchemy.MetaData()
 
-app.include_router(get_alarm_router(database, metadata))
-app.include_router(get_airflow_router(database, metadata))
+app.include_router(get_satellite_router(database, metadata))
+app.include_router(get_rocket_router(database, metadata))
 
 metadata.create_all(bind=engine)
 
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/ping")
-def call_ping():
-    return {"ping": ping()}
+async def docs_redirect():
+    return RedirectResponse(url='https://satellite.diginori.com')
 
 
 def read_json_server_provider(resource: str, _end: int, _order: str, _sort: str, _start: int, response: Response):
@@ -77,11 +72,11 @@ def read_json_server_provider(resource: str, _end: int, _order: str, _sort: str,
     return content
 
 
-@app.get("/alarms_ra")
-def alarms_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
-    return read_json_server_provider("alarms", _end, _order, _sort, _start, response)
+@app.get("/satellites_ra")
+def satellites_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+    return read_json_server_provider("satellites", _end, _order, _sort, _start, response)
 
 
-@app.get("/airflows_ra")
-def airflows_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
-    return read_json_server_provider("airflows", _end, _order, _sort, _start, response)
+@app.get("/rockets_ra")
+def rockets_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+    return read_json_server_provider("satellites", _end, _order, _sort, _start, response)
