@@ -29,3 +29,4 @@ $ fly proxy 5432 -a fcrud-db
 - https://pypi.org/project/p5/
 - https://blog.naver.com/karipr/221600755486
 - https://blog.naver.com/PostView.nhn?blogId=chsshim&logNo=220277344174
+- [rocket list](https://github.com/pySatellite/sli/issues/4)

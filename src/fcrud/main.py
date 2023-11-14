@@ -9,6 +9,7 @@ import databases
 import sqlalchemy
 import requests
 
+from fcrud.model.owner import get_owner_router
 from fcrud.model.rocket import get_rocket_router
 from fcrud.model.satellite import get_satellite_router
 from fcrud.utils.macgyver_knife import sort_and_extract
@@ -25,11 +26,13 @@ async def life(app: FastAPI):
 app = FastAPI(lifespan=life)
 
 origins = [
+    "http://localhost:5173",
     "http://localhost:5174",
     "https://satellite-info.web.app",
     "https://satellite-info.firebaseapp.com",
-    "https://satellite.diginori.com/",
-    "https://sli.diginori.com/",
+    "https://satellite.diginori.com",
+    "https://sli.diginori.com",
+    "https://satellite-info.github.io"
 ]
 
 app.add_middleware(
@@ -49,6 +52,7 @@ metadata = sqlalchemy.MetaData()
 
 app.include_router(get_satellite_router(database, metadata))
 app.include_router(get_rocket_router(database, metadata))
+app.include_router(get_owner_router(database, metadata))
 
 metadata.create_all(bind=engine)
 
@@ -79,4 +83,9 @@ def satellites_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort
 
 @app.get("/rockets_ra")
 def rockets_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
-    return read_json_server_provider("satellites", _end, _order, _sort, _start, response)
+    return read_json_server_provider("rockets", _end, _order, _sort, _start, response)
+
+
+@app.get("/owners_ra")
+def owners_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+    return read_json_server_provider("owners", _end, _order, _sort, _start, response)
