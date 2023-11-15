@@ -44,6 +44,7 @@ app.add_middleware(
 )
 
 DATABASE_URL = "postgresql://brown:brown@nrt.fcrud-db.internal:5432/brown"
+# DATABASE_URL = "mysql+pymysql://root:fcrud123456@localhost:3306/mysql"
 LOCAL_API_BASE_URL = "http://localhost:8000"
 
 database = databases.Database(DATABASE_URL)
@@ -60,6 +61,11 @@ metadata.create_all(bind=engine)
 @app.get("/")
 async def docs_redirect():
     return RedirectResponse(url='https://satellite.diginori.com')
+
+
+@app.get("/ping")
+async def ping():
+    return {"Hello": "World"}
 
 
 def read_json_server_provider(resource: str, _end: int, _order: str, _sort: str, _start: int, response: Response):

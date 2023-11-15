@@ -5,13 +5,13 @@ import datetime
 
 
 class SatelliteCreate(BaseModel):
-    name: str
+    name: str = "pySatellite-001"
     launch_time: datetime.datetime
-    latitude: float
-    longitude: float
-    angle: float
-    owner_id: int
-    rocket_id: int
+    latitude: float = 37.4932385
+    longitude: float = 126.9175228
+    angle: float = 77.777
+    owner_id: int = 1
+    rocket_id: int = 1
 
 
 class Satellite(SatelliteCreate):
@@ -24,7 +24,7 @@ def get_satellite_table(metadata):
         metadata,
         sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
         sqlalchemy.Column("name", sqlalchemy.String),
-        sqlalchemy.Column("launch_time", sqlalchemy.DateTime),
+        sqlalchemy.Column("launch_time", sqlalchemy.DateTime(timezone=True), default=datetime.datetime.utcnow),
         sqlalchemy.Column("latitude", sqlalchemy.Float),
         sqlalchemy.Column("longitude", sqlalchemy.Float),
         sqlalchemy.Column("angle", sqlalchemy.Float),

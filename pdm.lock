@@ -5,7 +5,20 @@
 groups = ["default", "test"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:b630d69464998849dbceca20ccddb73bed481c39a53d4f37e0127b31931363e1"
+content_hash = "sha256:a910fc953db5ab82f181dd0f2c28b31cc6f7d1ddff84d437127e699982ee52b1"
+
+[[package]]
+name = "aiomysql"
+version = "0.2.0"
+requires_python = ">=3.7"
+summary = "MySQL driver for asyncio."
+dependencies = [
+    "PyMySQL>=1.0",
+]
+files = [
+    {file = "aiomysql-0.2.0-py3-none-any.whl", hash = "sha256:b7c26da0daf23a5ec5e0b133c03d20657276e4eae9b73e040b72787f6f6ade0a"},
+    {file = "aiomysql-0.2.0.tar.gz", hash = "sha256:558b9c26d580d08b8c5fd1be23c5231ce3aeff2dadad989540fee740253deb67"},
+]
 
 [[package]]
 name = "aiosqlite"
@@ -1480,6 +1493,16 @@ summary = "Pygments is a syntax highlighting package written in Python."
 files = [
     {file = "Pygments-2.16.1-py3-none-any.whl", hash = "sha256:13fc09fa63bc8d8671a6d247e1eb303c4b343eaee81d861f3404db2935653692"},
     {file = "Pygments-2.16.1.tar.gz", hash = "sha256:1daff0494820c69bc8941e407aa20f577374ee88364ee10a98fdbe0aece96e29"},
+]
+
+[[package]]
+name = "pymysql"
+version = "1.1.0"
+requires_python = ">=3.7"
+summary = "Pure Python MySQL Driver"
+files = [
+    {file = "PyMySQL-1.1.0-py3-none-any.whl", hash = "sha256:8969ec6d763c856f7073c4c64662882675702efcb114b4bcbb955aea3a069fa7"},
+    {file = "PyMySQL-1.1.0.tar.gz", hash = "sha256:4f13a7df8bf36a51e81dd9f3605fede45a4878fe02f9236349fd82a3f0612f96"},
 ]
 
 [[package]]
