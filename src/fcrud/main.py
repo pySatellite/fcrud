@@ -12,6 +12,7 @@ import requests
 from fcrud.model.owner import get_owner_router
 from fcrud.model.rocket import get_rocket_router
 from fcrud.model.satellite import get_satellite_router
+from fcrud.model.orbit import get_orbit_router
 from fcrud.utils.macgyver_knife import sort_and_extract
 
 
@@ -54,6 +55,7 @@ metadata = sqlalchemy.MetaData()
 app.include_router(get_satellite_router(database, metadata))
 app.include_router(get_rocket_router(database, metadata))
 app.include_router(get_owner_router(database, metadata))
+app.include_router(get_orbit_router(database, metadata))
 
 metadata.create_all(bind=engine)
 
@@ -95,3 +97,7 @@ def rockets_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: s
 @app.get("/owners_ra")
 def owners_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
     return read_json_server_provider("owners", _end, _order, _sort, _start, response)
+
+@app.get("/orbits_ra")
+def orbits_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
+    return read_json_server_provider("orbits", _end, _order, _sort, _start, response)
