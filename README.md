@@ -30,3 +30,6 @@ $ fly proxy 5432 -a fcrud-db
 - https://blog.naver.com/karipr/221600755486
 - https://blog.naver.com/PostView.nhn?blogId=chsshim&logNo=220277344174
 - [rocket list](https://github.com/pySatellite/sli/issues/4)
+- https://www.space-track.org/
+- https://www.nasaspaceflight.com/
+- https://spacenews.com/china-launches-14-satellites-with-new-solid-rocket-from-mobile-sea-platform/

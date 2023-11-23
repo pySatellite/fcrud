@@ -15,6 +15,8 @@ from fcrud.model.satellite import get_satellite_router
 from fcrud.model.orbit import get_orbit_router
 from fcrud.utils.macgyver_knife import sort_and_extract
 
+from fcrud.utils.space_track import basic_space_data
+
 
 @asynccontextmanager
 async def life(app: FastAPI):
@@ -25,6 +27,13 @@ async def life(app: FastAPI):
     await database.disconnect()
 
 app = FastAPI(lifespan=life)
+
+
+@app.get("/space_track/basics_pace_data/{class_name}")
+def space_track_basic_space_data(class_name: str, query: Union[str, None] = None):
+    data = basic_space_data(class_name)
+    return data
+
 
 origins = [
     "http://localhost:5173",
@@ -98,6 +107,10 @@ def rockets_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: s
 def owners_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
     return read_json_server_provider("owners", _end, _order, _sort, _start, response)
 
+
 @app.get("/orbits_ra")
 def orbits_ra(response: Response, _end: int = 10, _order: str = "ASC", _sort: str = "id", _start: int = 0):
     return read_json_server_provider("orbits", _end, _order, _sort, _start, response)
+
+
+
