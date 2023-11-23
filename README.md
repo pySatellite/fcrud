@@ -24,3 +24,9 @@ $ fly proxy 5432 -a fcrud-db
 - https://fly.io/docs/postgres/connecting/connecting-with-flyctl/
 - [PostgreSQL 사용자 추가 및 DB/ Table 생성](https://browndwarf.tistory.com/3)
 - https://velog.io/@beton/React-admin-X-Total-Count
+- https://github.com/XEphem/XEphem
+- https://projects.raspberrypi.org/en/projects/rocket-launch/
+- https://pypi.org/project/p5/
+- https://blog.naver.com/karipr/221600755486
+- https://blog.naver.com/PostView.nhn?blogId=chsshim&logNo=220277344174
+- [rocket list](https://github.com/pySatellite/sli/issues/4)
